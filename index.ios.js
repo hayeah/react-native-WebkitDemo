@@ -24,7 +24,7 @@ var RNWebkitDemo = React.createClass({
   onNavigationStateChange(e) {
     const parsedURL = url.parse(e.url);
     if(parsedURL.protocol === "react-js-navigation:") {
-      Alert.alert("go to: "+parsedURL.hostname);
+      Alert.alert("hello from webview");
     }
     console.log("load",e);
 

@@ -4,27 +4,52 @@
  */
 'use strict';
 
+import * as url from "url";
+
 var React = require('react-native');
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
+  WebView,
+  Alert,
 } = React;
 
 var RNWebkitDemo = React.createClass({
+  onNavigationStateChange(e) {
+    const parsedURL = url.parse(e.url);
+    if(parsedURL.hash === "#hello") {
+      Alert.alert("hello from webview");
+    }
+
+    if(parsedURL.hash === "#aloha") {
+      Alert.alert("aloha from webview");
+    }
+    console.log("load",e);
+
+  },
+
+  showAlert() {
+    console.log("alert!");
+    Alert.alert("hello!");
+  },
+
   render: function() {
+
     return (
+
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
+        <TouchableOpacity onPress={this.showAlert}>
+          <Text>show alert</Text>
+        </TouchableOpacity>
+
+        <WebView
+          style={styles.webview}
+          url="http://localhost:8080"
+          onNavigationStateChange={this.onNavigationStateChange}
+        />
       </View>
     );
   }
@@ -33,20 +58,18 @@ var RNWebkitDemo = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    alignSelf: 'stretch',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: 'rgba(255,0,0,0.2)',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+
+  webview: {
+    alignSelf: 'stretch',
+    flex: 1,
+    backgroundColor: 'rgba(0,255,0,0.2)',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
 });
 
 AppRegistry.registerComponent('RNWebkitDemo', () => RNWebkitDemo);
